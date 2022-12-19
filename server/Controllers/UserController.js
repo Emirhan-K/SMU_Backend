@@ -76,7 +76,7 @@ export const followUser = async (req, res) => {
             const followUser = await UserModel.findById(id);
             const followingUser = await UserModel.findById(currentUserId);
 
-            if (followUser.followers.includes(currentUserId)) {
+            if (!followUser.following.includes(currentUserId)) {
                 await followUser.updateOne({ $push: { following: currentUserId } })
                 await followingUser.updateOne({ $push: { followers: id } })
                 res.status(200).json("User Followed!!!")
